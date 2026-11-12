@@ -198,9 +198,9 @@ var no=String(h.wa).replace(/[^0-9]/g,''); if(no.startsWith('0')){no='62'+no.sli
 var dibayar=0; (h.cicilan||[]).forEach(function(c){dibayar+=Number(c.nom||c.jumlah||c.bayar||0)});
 var total=Number(h.nom||0); if(!total){total=Number(h.sisa||0)+dibayar}
 var tgl=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
-window.location.href='intent://send?phone='+no+'&text='+encodeURIComponent('------------------------------\n      STRUK PEMBAYARAN\n------------------------------\nNama : '+h.nama+'\nBarang : '+h.barang+'\nTanggal : '+tgl+'\n------------------------------\nTotal Hutang : '+fmt(total)+'\nSudah Dibayar : '+fmt(dibayar)+'\nSisa Hutang : '+fmt(h.sisa)+'\n------------------------------\nStatus : '+(Number(h.sisa)<=0?'LUNAS':'Belum Lunas')+'\n\nTerima kasih sudah membayar ya kak')+'#Intent;scheme=whatsapp;package=com.whatsapp;end';
+window.open('https://wa.me/'+no+'?text='+encodeURIComponent('Halo '+h.nama+', total '+fmt(total)+' dibayar '+fmt(dibayar)));
 }
-function notaHutang(id){var h=d.hutang.find(function(x){return String(x.id)===String(id)}); if(!h) return; alert('=== NOTA HUTANG ===\nNama: '+h.nama+'\nBarang: '+h.barang+'\nTotal: '+fmt(h.total)+'\nSisa: '+fmt(h.sisa)+'\nStatus: '+(h.lunas?'LUNAS':'BELUM LUNAS')+'\nTanggal: '+h.tgl)}
+  function notaHutang(id){var h=d.hutang.find(function(x){return String(x.id)===String(id)}); if(!h) return; alert('=== NOTA HUTANG ===\nNama: '+h.nama+'\nBarang: '+h.barang+'\nTotal: '+fmt(h.total)+'\nSisa: '+fmt(h.sisa)+'\nStatus: '+(h.lunas?'LUNAS':'BELUM LUNAS')+'\nTanggal: '+h.tgl)}
 function notaRekap(){
   var masuk=0, keluar=0, cicilTotal=0;
   d.riwayat.forEach(function(r){if(r.tipe==='masuk') masuk+=Number(r.nom||0); if(r.tipe==='keluar') keluar+=Number(r.nom||0)});
