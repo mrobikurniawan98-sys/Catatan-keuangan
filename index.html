@@ -193,10 +193,13 @@ function hapusR(i){d.riwayat.splice(i,1); simpan(); render()}
 function hapusLunas(){if(!confirm('Hapus semua yang udah lunas?')) return; d.hutang=d.hutang.filter(function(h){return !h.lunas}); simpan(); render()}
 function resetSemua(){if(!confirm('Yakin RESET SEMUA DATA? Semua hilang!')) return; d={pemasukan:0,pengeluaran:0,riwayat:[],hutang:[]}; simpan(); render()}
 function waHutang(id){
-  var h=d.hutang.find(function(x){return String(x.id)===String(id)}); if(!h) return; if(!h.wa){alert('Nomor WA kosong');return}
-  var no=String(h.wa).replace(/[^0-9]/g,''); if(no.startsWith('0')) no='62'+no.slice(1);
-  window.open('https://wa.me/'+no+'?text='+encodeURIComponent('Halo '+h.nama+', sisa hutang kamu untuk '+h.barang+' tinggal '+fmt(h.sisa)+' ya. 🙏'),'_blank');
-}
+var h=d.hutang.find(function(x){return String(x.id)===String(id)});
+var no=String(h.wa).replace(/[^0-9]/g,''); if(no.startsWith('0')){no='62'+no.slice(1)}
+var dibayar=0; (h.cicilan||[]).forEach(function(c){dibayar+=Number(c.nom||c.jumlah||c.bayar||0)});
+var total=Number(h.nom||0); if(!total){total=Number(h.sisa||0)+dibayar}
+var tgl=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+window.open('https://wa.me/'+no+'?text='+encodeURIComponent('------------------------------\n      STRUK PEMBAYARAN\n------------------------------\nNama : '+h.nama+'\nBarang : '+h.barang+'\nTanggal : '+tgl+'\n------------------------------\nTotal Hutang : '+fmt(total)+'\nSudah Dibayar : '+fmt(dibayar)+'\nSisa Hutang : '+fmt(h.sisa)+'\n------------------------------\nStatus : '+(Number(h.sisa)<=0?'LUNAS':'Belum Lunas')+'\n\nTerima kasih sudah membayar ya kak'));
+      }
 function notaHutang(id){var h=d.hutang.find(function(x){return String(x.id)===String(id)}); if(!h) return; alert('=== NOTA HUTANG ===\nNama: '+h.nama+'\nBarang: '+h.barang+'\nTotal: '+fmt(h.total)+'\nSisa: '+fmt(h.sisa)+'\nStatus: '+(h.lunas?'LUNAS':'BELUM LUNAS')+'\nTanggal: '+h.tgl)}
 function notaRekap(){
   var masuk=0, keluar=0, cicilTotal=0;
