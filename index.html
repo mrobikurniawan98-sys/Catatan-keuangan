@@ -214,10 +214,10 @@ function render(){
     d.riwayat.forEach(function(r){if(r.tipe==='masuk') masuk+=Number(r.nom||0); if(r.tipe==='keluar') keluar+=Number(r.nom||0)});
     var sisaHutang=0, cicilTotal=0;
     d.hutang.forEach(function(h){sisaHutang+=Number(h.sisa||0); (h.cicilan||[]).forEach(function(c){cicilTotal+=Number(c.nom||0)})});
-    var saldo=masuk-keluar;
+    var saldo=masuk-keluar-sisaHutang;
     document.getElementById('saldoBig').innerText='Rp '+saldo.toLocaleString('id-ID');
     document.getElementById('tMasuk').innerText=fmt(masuk);
-    document.getElementById('tKeluar').innerText=fmt(keluar);
+    document.getElementById('tKeluar').innerText=fmt(keluar+sisaHutang);
     document.getElementById('tHutang').innerText=fmt(sisaHutang);
     document.getElementById('tOrang').innerText=d.hutang.length+' orang';
     var kat={}; d.riwayat.forEach(function(r){if(r.tipe!=='keluar') return; kat[r.ket]=(kat[r.ket]||0)+Number(r.nom||0)});
