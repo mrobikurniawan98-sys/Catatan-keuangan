@@ -1,249 +1,76 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FINAL - Catatan Keuangan</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#16a34a">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Catatan Keuangan">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" href="icon-192.png">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Catatan Keuangan</title>
 <style>
-*{box-sizing:border-box}
-body{font-family:Arial,sans-serif;margin:0;background:#eef2f7;padding:12px;padding-bottom:40px}
-.top{background:#16a34a;color:#fff;padding:14px;border-radius:10px;text-align:center;font-weight:bold;font-size:15px}
-.card{background:#fff;border-radius:14px;padding:14px;margin-top:12px}
-.card.dark{background:#0f172a;color:#fff}
-.card.orange{background:#f59e0b}
-.card h3{margin:4px 0 10px;font-size:16px}
-input{width:100%;padding:13px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
-button{width:100%;padding:13px;margin:6px 0;border:none;border-radius:10px;font-weight:bold;font-size:14px;color:#fff;cursor:pointer}
-.hijau{background:#16a34a}.merah{background:#dc2626}.hitam{background:#0f172a}.orange{background:#f59e0b}.ungu{background:#7c3aed}
-.fotoBtn{background:#fff!important;color:#000!important;border:2px dashed #16a34a!important}
-.filterBtn{background:#fff!important;color:#000!important;border:1px solid #ddd!important}
-.filterBtn.on{background:#0f172a!important;color:#fff!important}
-.flex{display:flex;gap:6px}.flex button{font-size:12px;padding:11px 5px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.box{background:#fff;color:#000;border-radius:8px;padding:10px;font-size:13px}
-.row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #eee;font-size:14px}
-.item{border:1px solid #eee;border-radius:12px;padding:11px;margin-top:9px}
-.item img{width:100%;border-radius:10px;margin-top:7px}
-.mini{width:auto;padding:8px 10px;font-size:12px;margin:3px 2px}
-#previewFoto2{width:100%;border-radius:10px;display:none;margin-top:6px}
-.ungu-text{color:#7c3aed;font-size:13px;margin:4px 0}
-.bar{background:#e2e8f0;border-radius:20px;height:20px;overflow:hidden;margin:3px 0 8px}
-.fill{height:100%;color:#fff;font-size:11px;font-weight:bold;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
-.zona{border:2px solid #f59e0b;border-radius:14px;padding:12px;margin-top:12px;background:#fff}
-</style>
-</head>
-<body>
+body{font-family:sans-serif;background:#0f172a;color:#fff;margin:0;padding:10px}
+.top{background:#22c55e;color:#000;padding:12px;border-radius:10px;font-weight:bold;text-align:center;font-size:18px}
+.dark{background:#1e293b;padding:10px;border-radius:10px;margin-top:10px}
+.card{background:#1e293b;padding:12px;border-radius:10px;margin-top:10px}
+input,select,button{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:0;box-sizing:border-box;font-size:15px}
+button{background:#22c55e;font-weight:bold;cursor:pointer}
+button.o{background:#f59e0b} button.r{background:#ef4444;color:#fff} button.b{background:#3b82f6;color:#fff} button.g{background:#64748b;color:#fff}
+img{max-width:100%;border-radius:8px;margin-top:5px}
+video{width:100%;border-radius:8px;background:#000}
+.bar{height:12px;background:#334155;border-radius:6px;overflow:hidden;margin:3px 0}
+.bar>div{height:12px;background:#f59e0b}
+.item{background:#0f172a;padding:10px;border-radius:8px;margin-top:8px}
+small{color:#cbd5e1}
+.struk{background:#fff;color:#000;padding:15px;border-radius:8px;font-family:monospace;text-align:center}
+.struk hr{border-top:1px dashed #000}
+</style></head><body>
 <div class="top">✅ FINAL - CATATAN KEUANGAN</div>
-
-<div class="card dark">
-<div style="font-size:12px">Saldo</div>
-<div style="font-size:19px;font-weight:bold" id="saldoBig">Rp 0</div>
-<div class="grid" style="margin-top:8px">
-<div class="box">📥 MASUK<br><b id="tMasuk">Rp 0</b></div>
-<div class="box">📤 KELUAR<br><b id="tKeluar">Rp 0</b></div>
-<div class="box">💳 SISA HUTANG<br><b id="tHutang">Rp 0</b></div>
-<div class="box">👥 NGUTANG<br><b id="tOrang">0 orang</b></div>
-</div>
-</div>
-
+<div class="dark" id="saldo"></div>
 <div class="card"><h3>📊 GRAFIK - BOROS DI MANA?</h3><div id="grafik"></div></div>
-
-<div class="card"><h3>📅 REKAP 1 BULAN</h3><div id="rekap"></div>
-<div class="flex"><button class="ungu" onclick="notaRekap()">🧾 NOTA REKAP & WA</button><button class="hitam" onclick="window.print()">🖨️ PRINT</button></div></div>
-
-<div class="zona"><h3 style="color:#dc2626;margin:4px 0">⚠️ ZONA BAHAYA</h3>
-<button class="orange" onclick="hapusLunas()">HAPUS YANG UDAH LUNAS AJA</button>
-<button class="merah" onclick="resetSemua()">RESET SEMUA DATA</button>
-<button class="hitam" onclick="pulihkan()">↩️ PULIHKAN DATA LAMA</button></div>
+<div class="card"><h3>📅 REKAP 1 BULAN</h3><div id="rekap"></div></div>
 
 <div class="card"><h3>✏️ Catat Baru</h3>
-<input type="text" id="ket" placeholder="Keterangan... Gajih">
-<input type="number" id="nom" placeholder="Nominal... 1375000">
-<button class="hijau" onclick="simpanTransaksi('masuk')">+ SIMPAN PEMASUKAN</button>
-<button class="merah" onclick="simpanTransaksi('keluar')">- SIMPAN PENGELUARAN</button></div>
+<input id="ket" placeholder="Keterangan - misal: Gaji, Makan, Bensin">
+<input id="nom" type="number" placeholder="Nominal Rp">
+<select id="tipe"><option value="masuk">Pemasukan (+)</option><option value="keluar">Pengeluaran (-)</option></select>
+<button onclick="simpan()">💾 SIMPAN CATATAN</button></div>
 
-<div class="card orange"><h3>📋 Catat Hutang + WA + FOTO!</h3>
-<input type="text" id="hNama" placeholder="Nama... Andi">
-<input type="text" id="hBarang" placeholder="Ngutang apa? Roko">
-<input type="number" id="hTotal" placeholder="Total... 31000">
-<input type="text" id="hWa" placeholder="Nomor WA... 08123456789">
-<button class="fotoBtn" id="btnBukaKamera" onclick="bukaKamera()">📷 BUKA KAMERA - REAL TIME</button>
-<div id="boxKamera" style="display:none;background:#000;border-radius:10px;padding:8px;margin-top:6px">
-<video id="videoKamera" autoplay playsinline muted style="width:100%;border-radius:8px;background:#000"></video>
-<button class="hijau" onclick="ambilFoto()">📸 AMBIL FOTO SEKARANG</button>
-<button class="merah" onclick="tutupKamera()">✖️ TUTUP KAMERA</button>
+<div class="card" style="background:#f59e0b;color:#000"><h3>🧾 Catat Hutang + WA + FOTO!</h3>
+<input id="namaH" placeholder="Nama... Andi">
+<input id="ketH" placeholder="Ngutang apa? Roko">
+<input id="nomH" type="number" placeholder="Total... 31000">
+<input id="waH" type="tel" placeholder="Nomor WA... 08123456789">
+<button class="b" onclick="bukaKamera()">📷 BUKA KAMERA - REAL TIME</button>
+<video id="cam" autoplay playsinline style="display:none"></video>
+<button id="btnJepret" class="b" onclick="jepret()" style="display:none">📸 JEPRET FOTO</button>
+<canvas id="cv" style="display:none"></canvas>
+<button class="g" onclick="document.getElementById('fotoFile').click()">🖼️ ATAU PILIH DARI GALERI</button>
+<input type="file" id="fotoFile" accept="image/*" style="display:none">
+<img id="prevFoto" style="display:none">
+<p id="statusFoto" style="font-size:13px">Belum ada foto</p>
+<button onclick="simpanHutang()">💾 + SIMPAN HUTANG + FOTO</button></div>
+
+<div class="card"><h3>📋 Daftar Hutang</h3>
+<input id="cariH" placeholder="🔍 CARI NAMA..." oninput="render()">
+<div id="infoH"></div>
+<div id="listH"></div>
+<button class="g" onclick="hapusLunas()">Hapus Yang Udah Lunas</button></div>
+
+<div class="card"><h3>🧾 Riwayat</h3>
+<input id="cari" placeholder="🔍 Cari riwayat..." oninput="render()">
+<div id="listR"></div>
+<button onclick="notaWA()">📲 Kirim Rekap ke WA</button>
+<button class="r" onclick="resetSemua()">🗑️ HAPUS SEMUA DATA</button></div>
+
+<!-- POPUP NOTA STRUK -->
+<div id="notaPop" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);padding:15px;overflow:auto;z-index:99">
+<div class="struk" id="notaIsi"></div>
+<button class="b" onclick="kirimNotaWA()">💬 KIRIM NOTA INI VIA WA</button>
+<button class="g" onclick="document.getElementById('notaPop').style.display='none'">❌ TUTUP - BALIK</button>
+<p style="text-align:center;color:#fff;font-size:13px">Cara kirim gambar nota: Screenshot struk di atas, terus kirim ke WA orangnya</p>
 </div>
-<canvas id="canvasFoto" style="display:none"></canvas>
-<button class="fotoBtn" onclick="document.getElementById('fotoHutang').click()">🖼️ ATAU PILIH DARI GALERI - KLIK DISINI</button>
-<input type="file" id="fotoHutang" accept="image/*" style="display:none" onchange="previewHutang(event)">
-<img id="previewFoto2">
-<button class="hijau" onclick="simpanHutang()">+ SIMPAN HUTANG + FOTO</button></div>
-
-<div class="card"><h3>📋 Daftar Hutang - CARI + FOTO + CICIL + NOTA!</h3>
-<input type="text" id="cariHutang" placeholder="🔍 CARI NAMA... Budi / Zura / Roko" oninput="render()">
-<div class="flex"><button class="filterBtn on" onclick="setFilterHutang('semua',this)">⬛ SEMUA</button><button class="filterBtn" onclick="setFilterHutang('belum',this)">🔴 BELUM LUNAS</button><button class="filterBtn" onclick="setFilterHutang('lunas',this)">🟢 UDAH LUNAS</button></div>
-<div class="ungu-text" id="jmlHutang">0 orang ketemu</div><div id="listHutang">Belum ada hutang</div></div>
-
-<div class="card"><h3>📜 Riwayat</h3><div id="listR">Belum ada riwayat</div></div>
 
 <script>
-var K='catatanV22';
-function dataAwal(){
-  return {pemasukan:1385000,pengeluaran:200000,
-  riwayat:[
-    {tgl:'12/11/2026, 10.31.53',ket:'Gajih',nom:1375000,tipe:'masuk',foto:''},
-    {tgl:'12/11/2026, 10.32.05',ket:'Arisan',nom:150000,tipe:'keluar',foto:''},
-    {tgl:'12/11/2026, 10.32.12',ket:'Oli',nom:50000,tipe:'keluar',foto:''},
-    {tgl:'12/11/2026, 10.41.13',ket:'Cicil dari Zura',nom:10000,tipe:'masuk',foto:''}
-  ],
-  hutang:[
-    {id:1,nama:'Zura',barang:'Roko',total:70000,sisa:60000,wa:'085817254528',foto:'',lunas:false,cicilan:[{nom:10000,tgl:'12/11/2026, 10.41.13'}],tgl:'12/11/2026, 10.40.00'},
-    {id:2,nama:'Andi',barang:'Roko',total:10000,sisa:0,wa:'',foto:'',lunas:true,cicilan:[{nom:10000,tgl:'12/11/2026, 10.41.00'}],tgl:'12/11/2026, 10.39.00'}
-  ]};
-}
-var d=null;
-try{ d=JSON.parse(localStorage.getItem(K)||'null'); }catch(e){ d=null; }
-if(!d || !d.riwayat || d.riwayat.length===0){ d=dataAwal(); }
-if(!Array.isArray(d.riwayat)) d.riwayat=[];
-if(!Array.isArray(d.hutang)) d.hutang=[];
-function normalisasi(){
-  d.hutang.forEach(function(h){
-    if(!h) return;
-    if(!Array.isArray(h.cicilan)) h.cicilan=[];
-    if(h.sisa==null || isNaN(h.sisa)) h.sisa = Number(h.total||0);
-    if(h.total==null) h.total = Number(h.sisa||0);
-    if(h.id==null) h.id = Date.now()+Math.random();
-    if(!h.nama) h.nama='-';
-    if(!h.barang) h.barang='-';
-  });
-  d.riwayat.forEach(function(r){
-    if(!r) return;
-    if(r.nom==null) r.nom=0;
-    if(!r.tipe) r.tipe='masuk';
-    if(!r.ket) r.ket='-';
-  });
-}
-normalisasi();
-function simpan(){ try{ localStorage.setItem(K,JSON.stringify(d)); }catch(e){} }
-var filterHutang='semua'; var fotoHutangTemp='';
-function fmt(n){return 'Rp '+Number(n||0).toLocaleString('id-ID')}
-function previewHutang(e){var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(ev){fotoHutangTemp=ev.target.result; var im=document.getElementById('previewFoto2'); im.src=fotoHutangTemp; im.style.display='block'}; r.readAsDataURL(f)}
-var streamKamera=null;
-function bukaKamera(){
-  var box=document.getElementById('boxKamera');
-  var video=document.getElementById('videoKamera');
-  box.style.display='block';
-  document.getElementById('btnBukaKamera').innerText='📷 KAMERA AKTIF...';
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ alert('Kamera tidak didukung di browser ini. Pakai tombol GALERI di bawahnya.'); box.style.display='none'; return; }
-  navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false})
-  .then(function(stream){ streamKamera=stream; video.srcObject=stream; return video.play(); })
-  .catch(function(err){ alert('Kamera gak bisa dibuka. Harus HTTPS + Izinkan kamera. Error: '+err.message); box.style.display='none'; document.getElementById('btnBukaKamera').innerText='📷 BUKA KAMERA - REAL TIME'; });
-}
-function tutupKamera(){
-  if(streamKamera){ streamKamera.getTracks().forEach(function(t){ t.stop(); }); streamKamera=null; }
-  document.getElementById('boxKamera').style.display='none';
-  document.getElementById('btnBukaKamera').innerText='📷 BUKA KAMERA - REAL TIME';
-}
-function ambilFoto(){
-  var video=document.getElementById('videoKamera');
-  var canvas=document.getElementById('canvasFoto');
-  if(!video.videoWidth){ alert('Kamera belum siap, tunggu 1 detik'); return; }
-  var w=video.videoWidth; var h=video.videoHeight; var max=1000;
-  if(w>max){ h=h*max/w; w=max; }
-  canvas.width=w; canvas.height=h;
-  canvas.getContext('2d').drawImage(video,0,0,w,h);
-  fotoHutangTemp=canvas.toDataURL('image/jpeg',0.8);
-  var im=document.getElementById('previewFoto2'); im.src=fotoHutangTemp; im.style.display='block';
-  tutupKamera();
-  alert('Foto ke-jepret! Tinggal tap SIMPAN HUTANG + FOTO');
-}
-function pulihkan(){ d=dataAwal(); normalisasi(); simpan(); render(); alert('Dipulihkan! Saldo Rp 1.185.000, 2 orang hutang'); }
-function simpanTransaksi(tipe){
-  var ket=document.getElementById('ket').value||'-'; var nom=parseInt(document.getElementById('nom').value||0);
-  if(!nom){alert('Isi nominal dulu');return}
-  d.riwayat.unshift({tgl:new Date().toLocaleString('id-ID'),ket:ket,nom:nom,tipe:tipe,foto:''});
-  simpan(); render(); document.getElementById('ket').value=''; document.getElementById('nom').value='';
-}
-function simpanHutang(){
-  var nama=document.getElementById('hNama').value||''; var barang=document.getElementById('hBarang').value||'-'; var total=parseInt(document.getElementById('hTotal').value||0); var wa=document.getElementById('hWa').value||'';
-  if(!nama||!total){alert('Isi nama + total dulu');return}
-  var obj={id:Date.now(),nama:nama,barang:barang,total:total,sisa:total,wa:wa,foto:fotoHutangTemp||'',lunas:false,cicilan:[],tgl:new Date().toLocaleString('id-ID')};
-  d.hutang.unshift(obj); d.riwayat.unshift({tgl:obj.tgl,ket:'Hutang: '+nama+' - '+barang,nom:total,tipe:'hutang',foto:fotoHutangTemp||''});
-  simpan(); render(); document.getElementById('hNama').value=''; document.getElementById('hBarang').value=''; document.getElementById('hTotal').value=''; document.getElementById('hWa').value=''; fotoHutangTemp=''; document.getElementById('previewFoto2').style.display='none'; alert('Hutang '+nama+' tersimpan!');
-}
-function setFilterHutang(f,btn){filterHutang=f; document.querySelectorAll('.filterBtn').forEach(function(b){b.classList.remove('on')}); if(btn) btn.classList.add('on'); render()}
-function cicil(id){
-  var h=d.hutang.find(function(x){return String(x.id)===String(id)}); if(!h) return;
-  var bayar=parseInt(prompt('Cicil berapa? Sisa: '+fmt(h.sisa),'' )||0); if(!bayar||bayar<=0) return;
-  if(!Array.isArray(h.cicilan)) h.cicilan=[];
-  h.sisa-=bayar; h.cicilan.push({nom:bayar,tgl:new Date().toLocaleString('id-ID')}); if(h.sisa<=0){h.sisa=0; h.lunas=true; alert('LUNAS! 🎉')}
-  d.riwayat.unshift({tgl:new Date().toLocaleString('id-ID'),ket:'Cicil dari '+h.nama,nom:bayar,tipe:'masuk',foto:''}); simpan(); render();
-}
-function toggleLunas(id){var h=d.hutang.find(function(x){return String(x.id)===String(id)}); if(!h) return; h.lunas=!h.lunas; if(h.lunas) h.sisa=0; simpan(); render()}
-function hapusHutang(id){if(!confirm('Hapus hutang ini?')) return; d.hutang=d.hutang.filter(function(x){return String(x.id)!==String(id)}); simpan(); render()}
-function hapusR(i){d.riwayat.splice(i,1); simpan(); render()}
-function hapusLunas(){if(!confirm('Hapus semua yang udah lunas?')) return; d.hutang=d.hutang.filter(function(h){return !h.lunas}); simpan(); render()}
-function resetSemua(){if(!confirm('Yakin RESET SEMUA DATA? Semua hilang!')) return; d={pemasukan:0,pengeluaran:0,riwayat:[],hutang:[]}; simpan(); render()}
-function waHutang(id){
-var h=d.hutang.find(function(x){return String(x.id)===String(id)});
-var no=String(h.wa).replace(/[^0-9]/g,''); if(no.startsWith('0')){no='62'+no.slice(1)}
-var dibayar=0; (h.cicilan||[]).forEach(function(c){dibayar+=Number(c.nom||c.jumlah||c.bayar||0)});
-var total=Number(h.nom||0); if(!total){total=Number(h.sisa||0)+dibayar}
-var tgl=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
-window.location.href='intent://send?phone='+no+'&text='+encodeURIComponentencodeURIComponent('------------------------------\n      STRUK PEMBAYARAN\n------------------------------\nNama : '+h.nama+'\nBarang : '+h.barang+'\nTanggal : '+tgl+'\n------------------------------\nTotal Hutang : '+fmt(total)+'\nSudah Dibayar : '+fmt(dibayar)+'\nSisa Hutang : '+fmt(h.sisa)+'\n------------------------------\nStatus : '+(Number(h.sisa)<=0?'LUNAS':'Belum Lunas')+'\n\nTerima kasih sudah membayar ya kak')+'#Intent;scheme=whatsapp;package=com.whatsapp;end';
-function notaHutang(id){var h=d.hutang.find(function(x){return String(x.id)===String(id)}); if(!h) return; alert('=== NOTA HUTANG ===\nNama: '+h.nama+'\nBarang: '+h.barang+'\nTotal: '+fmt(h.total)+'\nSisa: '+fmt(h.sisa)+'\nStatus: '+(h.lunas?'LUNAS':'BELUM LUNAS')+'\nTanggal: '+h.tgl)}
-function notaRekap(){
-  var masuk=0, keluar=0, cicilTotal=0;
-  d.riwayat.forEach(function(r){if(r.tipe==='masuk') masuk+=Number(r.nom||0); if(r.tipe==='keluar') keluar+=Number(r.nom||0)});
-  d.hutang.forEach(function(h){(h.cicilan||[]).forEach(function(c){cicilTotal+=Number(c.nom||0)})});
-  alert('REKAP 1 BULAN\nPemasukan: '+fmt(masuk)+'\nPengeluaran: '+fmt(keluar)+'\nUntung: '+fmt(masuk-keluar)+'\nSisa Hutang: '+fmt(d.hutang.reduce(function(a,h){return a+Number(h.sisa||0)},0))+'\nLunas/Cicil: '+fmt(cicilTotal));
-}
-function render(){
-  try{
-    normalisasi();
-    var masuk=0, keluar=0;
-    d.riwayat.forEach(function(r){if(r.tipe==='masuk') masuk+=Number(r.nom||0); if(r.tipe==='keluar') keluar+=Number(r.nom||0)});
-    var sisaHutang=0, cicilTotal=0;
-    d.hutang.forEach(function(h){sisaHutang+=Number(h.sisa||0); (h.cicilan||[]).forEach(function(c){cicilTotal+=Number(c.nom||0)})});
-    var saldo=masuk-keluar-sisaHutang;
-    document.getElementById('saldoBig').innerText='Rp '+saldo.toLocaleString('id-ID');
-    document.getElementById('tMasuk').innerText=fmt(masuk);
-    document.getElementById('tKeluar').innerText=fmt(keluar+sisaHutang);
-    document.getElementById('tHutang').innerText=fmt(sisaHutang);
-    document.getElementById('tOrang').innerText=d.hutang.length+' orang';
-    var kat={}; d.riwayat.forEach(function(r){if(r.tipe!=='keluar') return; kat[r.ket]=(kat[r.ket]||0)+Number(r.nom||0)});
-    var maxK=1; for(var k in kat) if(kat[k]>maxK) maxK=kat[k];
-    var g='<div>Pengeluaran</div>';
-    for(var k in kat){var p=Math.round(kat[k]/maxK*100); g+='<div>'+k+' - '+fmt(kat[k])+'</div><div class="bar"><div class="fill" style="width:'+p+'%;background:#7c3aed">'+p+'%</div></div>'}
-    if(!Object.keys(kat).length) g+='<div>Belum ada pengeluaran</div>';
-    var katH={}; d.hutang.forEach(function(h){if(Number(h.sisa||0)<=0) return; katH[h.barang]=(katH[h.barang]||0)+Number(h.sisa||0)});
-    var maxH=1; for(var k in katH) if(katH[k]>maxH) maxH=katH[k];
-    g+='<div style="margin-top:8px">Sisa Hutang</div>';
-    for(var k in katH){var p2=Math.round(katH[k]/maxH*100); g+='<div>'+k+' - '+fmt(katH[k])+'</div><div class="bar"><div class="fill" style="width:'+p2+'%;background:#dc2626">'+p2+'%</div></div>'}
-    if(!Object.keys(katH).length) g+='<div>Belum ada data</div>';
-    document.getElementById('grafik').innerHTML=g;
-    document.getElementById('rekap').innerHTML='<div class="row"><span>💰 Pemasukan</span><b>'+fmt(masuk)+'</b></div><div class="row"><span>💸 Pengeluaran</span><b>'+fmt(keluar)+'</b></div><div class="row"><span>📈 Untung</span><b>'+fmt(saldo)+'</b></div><div class="row"><span>⏳ Sisa Hutang</span><b>'+fmt(sisaHutang)+'</b></div><div class="row"><span>✅ Lunas / Cicil</span><b>'+fmt(cicilTotal)+'</b></div>';
-    var q=(document.getElementById('cariHutang').value||'').toLowerCase();
-    var list=d.hutang.filter(function(h){ if(filterHutang==='belum' && h.lunas) return false; if(filterHutang==='lunas' && !h.lunas) return false; if(q && (String(h.nama)+' '+String(h.barang)).toLowerCase().indexOf(q)<0) return false; return true; });
-    document.getElementById('jmlHutang').innerText=list.length+' orang ketemu';
-    document.getElementById('listHutang').innerHTML=list.length?list.map(function(h){ return '<div class="item"><b>'+h.nama+' - '+h.barang+'</b><br>Total: '+fmt(h.total)+' | Sisa: '+fmt(h.sisa)+' | '+(h.lunas?'🟢 UDAH LUNAS':'🔴 BELUM LUNAS')+'<br><small>'+h.tgl+(h.wa?' | WA: '+h.wa:'')+'</small>'+(h.foto?'<img src="'+h.foto+'">':'')+'<div><button class="mini hijau" onclick="cicil(\''+h.id+'\')">💰 CICIL</button><button class="mini hitam" onclick="toggleLunas(\''+h.id+'\')">'+(h.lunas?'Batal Lunas':'Tandai Lunas')+'</button><button class="mini hijau" onclick="waHutang(\''+h.id+'\')">💬 WA</button><button class="mini hitam" onclick="notaHutang(\''+h.id+'\')">🧾 NOTA</button><button class="mini merah" onclick="hapusHutang(\''+h.id+'\')">Hapus</button></div></div>'; }).join(''):'Belum ada hutang';
-    document.getElementById('listR').innerHTML=d.riwayat.length?d.riwayat.map(function(r,i){ var label=r.tipe==='masuk'?'(masuk)':r.tipe==='keluar'?'(keluar)':'(hutang)'; return '<div class="item"><div class="row"><span>'+(r.tgl||'')+' - '+r.ket+' - '+fmt(r.nom)+' '+label+'</span><button class="mini merah" onclick="hapusR('+i+')">Hapus</button></div>'+(r.foto?'<img src="'+r.foto+'">':'')+'</div>'; }).join(''):'Belum ada riwayat';
-  }catch(err){
-    document.getElementById('listHutang').innerText='Error: '+err.message+' - Tap PULIHKAN DATA LAMA';
-  }
-}
-render();
-</script>
-<script>
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
-</script>
-</body>
-  </html>
+var K='catatanV24';
+var d=JSON.parse(localStorage.getItem(K)||'{"pemasukan":0,"pengeluaran":0,"riwayat":[],"hutang":[]}');
+var fotoTemp=''; var stream=null; var notaIndex=0;
+function save(){localStorage.setItem(K,JSON.stringify(d))}
+function rp(n){return 'Rp '+(Number(n)||0).toLocaleString('id-ID')}
+function kat(t){t=(t||'').toLowerCase();if(t.includes('makan')||t.includes('jajan')||t.includes('kopi')||t.includes('roko'))return 'Makan';if(t.includes('bensin')||t.includes('ojek')||t.includes('parkir'))return 'Transport';if(t.includes('pulsa')||t.includes('kuota')||t.includes('listrik'))return 'Tagihan';if(t.includes('gaji')||t.includes('bonus')||t.includes('jual'))return 'Gaji / Jual';return 'Lainnya'}
+function formatWA(no){no=(no||'').replace(/[^0-9]/g,'');if(no.startsWith('0'))no='62'+no.slice(1);return no}
+function bukaKamera(){var v=document.getElementById('cam');navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(function(s){stream=s;v.srcObject=s;v.style.display='block';document.getElementById('btnJepret').style.display='block'}).catch(function(){alert('Izinkan kamera dulu')})}
+function jepret(){var v=document.getElementById('cam');var c=document.getElementById('
