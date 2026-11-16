@@ -194,7 +194,7 @@ function hapusLunas(){if(!confirm('Hapus semua yang udah lunas?')) return; d.hut
 function resetSemua(){if(!confirm('Yakin RESET SEMUA DATA? Semua hilang!')) return; d={pemasukan:0,pengeluaran:0,riwayat:[],hutang:[]}; simpan(); render()}
 function waHutang(id){
 var h=d.hutang.find(function(x){return String(x.id)===String(id)});
-var no=String(h.wa).replace(/[^0-9]/g,''); if(no.startsWith('0')){no='62'+no.slice(1)}
+var no=String(h.wa).replace(/[^0-9]/g,''); if(no.startsWith('0')){no='62'+no.slice(1)}else if(!no.startsWith('62')){no='62'+no;}
 var dibayar=0; (h.cicilan||[]).forEach(function(c){dibayar+=Number(c.nom||c.jumlah||c.bayar||0)});
 var total=Number(h.nom||0); if(!total){total=Number(h.sisa||0)+dibayar}
 var tgl=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
