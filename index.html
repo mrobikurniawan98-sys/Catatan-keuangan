@@ -200,7 +200,7 @@ var total=Number(h.nom||0); if(!total){total=Number(h.sisa||0)+dibayar}
 var tgl=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
 var pesan='Halo '+h.nama+'\nTotal: Rp '+fmt(total);
 pesan+='\nDibayar: Rp '+fmt(dibayar);
-pesan+='\nSisa: Rp '+fmt(sisa)+' per '+tgl;
+pesan+='\nSisa: Rp '+fmt(total-dibayar)+' per '+tgl;
 pesan+='\nTerima kasih sudah membayar ya kak';
 var link='intent://send?phone='+no+'&text='+encodeURIComponent(pesan);
 link+='#Intent;scheme=smsto;package=com.whatsapp;end';
