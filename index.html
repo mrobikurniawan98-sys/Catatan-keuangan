@@ -202,8 +202,7 @@ var pesan='Halo '+h.nama+'\nTotal: Rp '+fmt(total);
 pesan+='\nDibayar: Rp '+fmt(dibayar);
 pesan+='\nSisa: Rp '+fmt(total-dibayar)+' per '+tgl;
 pesan+='\nTerima kasih sudah membayar ya kak';
-var link='intent://send?phone='+no+'&text='+encodeURIComponent(pesan);
-link+='#Intent;scheme=smsto;package=com.whatsapp;end';
+var link='https://wa.me/'+no+'?text='+encodeURIComponent(pesan);
 window.location.href=link;//+no+'?text='+encodeURIComponent...('Halo '+h.nama+', total '+fmt(total)+' dibayar '+fmt(dibayar)));
 }
   function notaHutang(id){var h=d.hutang.find(function(x){return String(x.id)===String(id)}); if(!h) return; alert('=== NOTA HUTANG ===\nNama: '+h.nama+'\nBarang: '+h.barang+'\nTotal: '+fmt(h.total)+'\nSisa: '+fmt(h.sisa)+'\nStatus: '+(h.lunas?'LUNAS':'BELUM LUNAS')+'\nTanggal: '+h.tgl)}
